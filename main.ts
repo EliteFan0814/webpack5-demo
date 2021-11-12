@@ -1,4 +1,4 @@
 import './src/index.scss'
 
-let a = 5
+let a: number = 5
 console.log(4)

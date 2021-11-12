@@ -1,0 +1,1 @@
+let a = '这是vendor.js'

@@ -1,10 +1,13 @@
 const { resolve } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
-  entry: './main.js',
+  entry: {
+    main: './main.ts',
+    vendor: './src/vendor.js'
+  },
   output: {
-    filename: 'built.js',
-    path: resolve(__dirname, 'build'),
+    filename: '[name].bundle.js',
+    path: resolve(__dirname, 'dist'),
     publicPath: './'
   },
   module: {
@@ -12,6 +15,10 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: ['style-loader', 'css-loader', 'sass-loader']
+      },
+      {
+        test: /\.ts$/,
+        use: ['ts-loader']
       }
     ]
   },
