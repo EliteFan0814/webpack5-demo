@@ -1,6 +1,11 @@
 body {
+  background-image: url(../public/imgs/yaung.jpg);
   span {
     color: red;
     font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
   }
 }
