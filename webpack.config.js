@@ -6,7 +6,7 @@ const Webpack = require('webpack')
 module.exports = {
   entry: {
     main: './main.ts',
-    // vendor: './src/vendor.js'
+    vendor: './src/vendor.js'
   },
   output: {
     filename: '[name].js',
@@ -18,7 +18,7 @@ module.exports = {
     rules: [
       // 处理scss文件
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.(css|s[ac]ss)$/i,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
@@ -26,14 +26,7 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: [
-                  [
-                    'postcss-preset-env',
-                    {
-                      // 其他选项
-                    }
-                  ]
-                ]
+                plugins: [['postcss-preset-env']]
               }
             }
           },
@@ -43,7 +36,8 @@ module.exports = {
       // 处理ts文件
       {
         test: /\.ts$/,
-        use: ['ts-loader']
+        use: ['ts-loader'],
+        exclude: /node_modules/
       },
       // 处理图片资源
       {
@@ -58,18 +52,19 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css' //重命名输出的css文件，也可不写默认
-    }),
-    // new Webpack.HotModuleReplacementPlugin()
+    })
   ],
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
     static: './dist',
-    hot: 'only',
     historyApiFallback: true,
+    hot: true,
     compress: true, // gzip压缩
     port: 3000,
     open: true //自动打开浏览器
   },
-  target: 'web'
+  optimization: {
+    runtimeChunk: 'single'
+  },
 }
