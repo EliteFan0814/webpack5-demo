@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const Webpack = require('webpack')
 
 module.exports = {
@@ -12,7 +13,8 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    publicPath: ''
+    publicPath: './',
+    assetModuleFilename: 'images/[hash][ext][query]' // 自定义资源文件输出名
   },
   module: {
     rules: [
@@ -43,7 +45,7 @@ module.exports = {
       {
         test: '/.(jpg|png|jpeg|gif)$/',
         type: 'asset/resource'
-      }
+      },
     ]
   },
   plugins: [
@@ -65,6 +67,8 @@ module.exports = {
     open: true //自动打开浏览器
   },
   optimization: {
+    minimize: false, // 若为 true 则开发环境下启用 CSS 优化
+    minimizer: [new CssMinimizerPlugin()],
     runtimeChunk: 'single'
-  },
+  }
 }
