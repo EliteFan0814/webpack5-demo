@@ -10,10 +10,9 @@ module.exports = {
     vendor: './src/vendor.js'
   },
   output: {
-    filename: '[name].js',
+    filename: 'js/[name].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    publicPath: './',
     assetModuleFilename: 'images/[hash][ext][query]' // 自定义资源文件输出名
   },
   module: {
@@ -45,15 +44,26 @@ module.exports = {
       {
         test: '/.(jpg|png|jpeg|gif)$/',
         type: 'asset/resource'
-      },
+      }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      title: 'webpack5 入门',
+      template: './public/index.html',
+      filename: 'index.html',
+      inject: 'body',
+      chunks: ['main']
+    }),
+    new HtmlWebpackPlugin({
+      title: '另外一个文件',
+      template: './public/other.html',
+      filename: 'other.html',
+      inject: 'body',
+      chunks: ['vendor']
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css' //重命名输出的css文件，也可不写默认
+      filename: 'css/[name].css' //重命名输出的css文件，也可不写默认
     })
   ],
   mode: 'development',
